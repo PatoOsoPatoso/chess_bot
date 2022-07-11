@@ -1,0 +1,5 @@
+selenium
+stockfish
+cairosvg
+pycairo
+chess
