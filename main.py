@@ -50,6 +50,7 @@ def remove_image():
         canvas.delete(img)
         img = ''
         canvas.create_image(0, 50, image=img, anchor='nw')
+        os.remove('current.png')
     except:
         pass
 
@@ -87,6 +88,7 @@ class web(threading.Thread):
 
         # while loop with our control variable
         while keep_going:
+            flip = False
             # Auxiliar vairables for the moves
             white_moves = []
             black_moves = []
@@ -116,7 +118,7 @@ class web(threading.Thread):
                 continue
 
             # We try to access the lower clock and we check if it's white or black to flip the board in case we are black
-            side = driver.find_element(By.XPATH, '/html/body/div[2]/div[3]/div/div[4]')
+            side = driver.find_element(By.XPATH, '/html/body/div[3]/div[3]/div/div[4]')
             if 'black' in side.get_attribute("class"):
                 flip = True
 
@@ -195,7 +197,10 @@ class web(threading.Thread):
 
                 # Now we put from 1 to 3 Arrow objects with his respective moves and colors inside arrow_moves
                 for i, best_move in enumerate(best_moves):
-                    arrow_moves.append(chess.svg.Arrow(chess.parse_square(best_move['Move'][:2]), chess.parse_square(best_move['Move'][2:]), color=colors[i]))
+                    try:
+                        arrow_moves.append(chess.svg.Arrow(chess.parse_square(best_move['Move'][:2]), chess.parse_square(best_move['Move'][2:]), color=colors[i]))
+                    except:
+                        pass
             
             # Now we generate the svg code of the board
             boardsvg = chess.svg.board(board=board, arrows=arrow_moves, size=1920, flipped=flip)

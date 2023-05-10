@@ -131,3 +131,5 @@ dmypy.json
 # Custom
 *.png
 stockfish*
+.ruff_cache/
+current.png
